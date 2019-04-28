@@ -563,6 +563,18 @@ namespace wpfMovieManager2
             else
                 return;
 
+            if (dispinfoSelectContents.Name.IndexOf("?") >= 0)
+            {
+                FileInfo fileInfo = null;
+                string searchPattern = "*[" + dispinfoSelectContents.ProductNumber + " " + dispinfoSelectContents.SellDate.ToString("yyyyMMdd") + "].jpg";
+                string[] arrFiles = Directory.GetFiles(dispinfoSelectContents.Label, searchPattern, System.IO.SearchOption.TopDirectoryOnly);
+                if (arrFiles.Length >= 1)
+                {
+                    fileInfo = new FileInfo(arrFiles[0]);
+                    dispinfoSelectContents.Name = fileInfo.Name.Replace(fileInfo.Extension, "");
+                }
+            }
+
             dispinfoTargetGroupBySelectContents = ColViewMovieGroup.GetMatchDataByContents(dispinfoSelectContents);
 
             if (dispinfoTargetGroupBySelectContents == null)
